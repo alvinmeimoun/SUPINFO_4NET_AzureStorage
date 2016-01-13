@@ -14,5 +14,8 @@
     <Endpoints>
       <InputEndpoint name="Endpoint1" protocol="http" port="80" />
     </Endpoints>
+    <LocalResources>
+      <LocalStorage name="MainLocalStorage" cleanOnRoleRecycle="false" sizeInMB="200" />
+    </LocalResources>
   </WebRole>
 </ServiceDefinition>
