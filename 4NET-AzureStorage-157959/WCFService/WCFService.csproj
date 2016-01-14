@@ -106,7 +106,7 @@
       <DependentUpon>FileStorageService.svc</DependentUpon>
     </Compile>
     <Compile Include="IFileStorageService.cs" />
-    <Compile Include="Message\FolderMessage.cs" />
+    <Compile Include="Message\TreeItemMessage.cs" />
     <Compile Include="Message\UploadFileMessage.cs" />
     <Compile Include="Message\UploadFileMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

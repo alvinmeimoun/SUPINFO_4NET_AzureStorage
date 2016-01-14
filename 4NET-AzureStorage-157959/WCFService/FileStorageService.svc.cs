@@ -21,20 +21,41 @@ namespace WCFService
     {
         private static readonly string ROOT_CONTAINER = "main-local-storage";
 
-        public string ListFolders()
+        public string ListRootFolders()
         {
-            var blobs = getRootContainer().ListBlobs();
+            return ListContent("");
+        }
 
-            var rList = new List<FolderMessage>();
-            foreach(var blob in blobs)
+        public string ListContent(string folderPath)
+        {
+            var directory = getDirectory(folderPath);
+            var blobs = directory.ListBlobs();
+
+            var rList = new List<TreeItemMessage>();
+            foreach (var blob in blobs)
             {
-                var localPath = blob.Uri.LocalPath;
-                var name = localPath.Substring(0, localPath.LastIndexOf('/'));
-                name = name.Substring(name.LastIndexOf('/') + 1);
-
-                rList.Add(new FolderMessage
+                string name;
+                if (blob.GetType() == typeof (CloudBlobDirectory))
                 {
-                    Name = name
+                    name = ((CloudBlobDirectory) blob).Prefix;
+                } else if (blob.GetType() == typeof (CloudBlockBlob))
+                {
+                    name = ((CloudBlockBlob) blob).Name;
+                }
+                else
+                {
+                    name = blob.Uri.LocalPath;
+                }
+
+                bool isDirectory = name.EndsWith("/");
+                if (isDirectory) name = name.Substring(0, name.Length - 1);
+
+                if (name.Contains("/")) name = name.Substring(name.LastIndexOf('/')+1);
+
+                rList.Add(new TreeItemMessage
+                {
+                    Name = name,
+                    IsDirectory = isDirectory
                 });
             }
 
@@ -49,15 +70,17 @@ namespace WCFService
         }
 
         //Created to be used with WcfTestClient (Stream call not compatible with WcfTestClient)
-        public void Uploadfile(string filename, string folder, byte[] data)
+        public void Uploadfile(string filename, string folderPath, byte[] data)
         {
+            if(string.IsNullOrWhiteSpace(folderPath)) throw new ArgumentException("Can't add anything to root folder");
+
             UploadFile(new UploadFileMessage
             {
                 FileData = new MemoryStream(data),
                 Metadata = new UploadFileMetadata
                 {
                     FileName = filename,
-                    Folder = folder
+                    Folder = folderPath
                 }
         });
         }
@@ -73,9 +96,9 @@ namespace WCFService
             return getBlobClient().GetContainerReference(ROOT_CONTAINER);
         }
 
-        private CloudBlobDirectory getDirectory(string folderName)
+        private CloudBlobDirectory getDirectory(string folderPath)
         {
-            return getRootContainer().GetDirectoryReference(folderName);
+            return getRootContainer().GetDirectoryReference(folderPath);
         }
 
     }

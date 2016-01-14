@@ -15,12 +15,15 @@ namespace WCFService
     {
 
         [OperationContract]
-        string ListFolders();
+        string ListRootFolders();
+
+        [OperationContract]
+        string ListContent(string folderPath);
 
         [OperationContract]
         void UploadFile(UploadFileMessage msg);
 
         [OperationContract]
-        void Uploadfile(string filename, string folder, byte[] data);
+        void Uploadfile(string filename, string folderPath, byte[] data);
     }
 }
