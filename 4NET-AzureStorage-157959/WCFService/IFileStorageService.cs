@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using WCFService.Message;
 
 namespace WCFService
 {
@@ -13,34 +15,12 @@ namespace WCFService
     {
 
         [OperationContract]
-        string GetData(int value);
+        string ListFolders();
 
-        //[OperationContract]
-        //CompositeType GetDataUsingDataContract(CompositeType composite);
+        [OperationContract]
+        void UploadFile(UploadFileMessage msg);
 
-        // TODO: ajoutez vos opérations de service ici
+        [OperationContract]
+        void Uploadfile(string filename, string folder, byte[] data);
     }
-
-
-    // Utilisez un contrat de données comme indiqué dans l'exemple ci-après pour ajouter les types composites aux opérations de service.
-    /*[DataContract]
-    public class CompositeType
-    {
-        bool boolValue = true;
-        string stringValue = "Hello ";
-
-        [DataMember]
-        public bool BoolValue
-        {
-            get { return boolValue; }
-            set { boolValue = value; }
-        }
-
-        [DataMember]
-        public string StringValue
-        {
-            get { return stringValue; }
-            set { stringValue = value; }
-        }
-    }*/
 }
