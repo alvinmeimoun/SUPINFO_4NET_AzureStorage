@@ -98,5 +98,20 @@ namespace WCFService
             return fileData;
         }
 
+        public void CompressFolder(string folderPath)
+        {
+            if(string.IsNullOrWhiteSpace(folderPath)) throw new ArgumentException("Folder path must be specified");
+
+            var directory = BlobUtils.getDirectory(folderPath);
+            var directoryName = directory.Prefix.Substring(0, directory.Prefix.Length - 1);
+
+            using (var zip = ZipUtils.CompressBlobDirectory(directory))
+            {
+                var archivesDir = BlobUtils.getDirectory("archives");
+                var zipBlob = archivesDir.GetBlockBlobReference(directoryName+".zip");
+
+                ZipUtils.UploadZipToBlockBlob(zip, zipBlob);
+            }
+        }
     }
 }

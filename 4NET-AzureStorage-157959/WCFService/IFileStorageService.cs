@@ -28,5 +28,8 @@ namespace WCFService
 
         [OperationContract]
         byte[] DownloadFile(string filename, string folderPath = "");
+
+        [OperationContract]
+        void CompressFolder(string folderPath);
     }
 }
