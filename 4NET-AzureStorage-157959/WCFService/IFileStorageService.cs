@@ -25,5 +25,8 @@ namespace WCFService
 
         [OperationContract]
         void Uploadfile(string filename, string folderPath, byte[] data);
+
+        [OperationContract]
+        byte[] DownloadFile(string filename, string folderPath = "");
     }
 }

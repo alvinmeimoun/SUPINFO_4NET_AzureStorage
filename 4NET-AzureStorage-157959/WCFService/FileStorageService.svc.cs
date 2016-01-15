@@ -84,9 +84,19 @@ namespace WCFService
         });
         }
 
-        
+        public byte[] DownloadFile(string filename, string folderPath = "")
+        {
+            var directory = BlobUtils.getDirectory(folderPath);
+            var blob = directory.GetBlobReference(filename);
 
-        
+            blob.FetchAttributes();
+            long fileSize = blob.Properties.Length;
+
+            byte[] fileData = new byte[fileSize];
+
+            blob.DownloadToByteArray(fileData, 0);
+            return fileData;
+        }
 
     }
 }
