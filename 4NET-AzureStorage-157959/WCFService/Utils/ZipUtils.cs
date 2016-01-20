@@ -24,16 +24,17 @@ namespace WCFService.Utils
             }
         }
 
-        public static ZipFile CompressBlobDirectory(CloudBlobDirectory directory)
+        public static ZipFile CompressBlobDirectory(CloudBlobDirectory directory, List<string> excludedRootDirectories = null)
         {
             using (ZipFile zip = new ZipFile())
             {
-                AddBlobDirectoryToZip(directory, zip);
+                AddBlobDirectoryToZip(directory, zip, excludedRootDirectories: excludedRootDirectories);
                 return zip;
             }
         }
 
-        private static void AddBlobDirectoryToZip(CloudBlobDirectory directory, ZipFile zip, string currentPath = "")
+        private static void AddBlobDirectoryToZip(CloudBlobDirectory directory, ZipFile zip, 
+            string currentPath = "", List<string> excludedRootDirectories = null)
         {
             if (!string.IsNullOrWhiteSpace(currentPath)) zip.AddDirectoryByName(currentPath);
             
@@ -44,11 +45,15 @@ namespace WCFService.Utils
                 {
                     var subDirName = directory.Prefix.Length <= 1 ? directory.Prefix :
                         directory.Prefix.Substring(0, directory.Prefix.Length - 1);
-                    string subDirPath;
-                    if (string.IsNullOrWhiteSpace(currentPath)) subDirPath = subDirName;
-                    else subDirPath = string.Format("{0}/{1}", currentPath, subDirName);
 
-                    AddBlobDirectoryToZip((CloudBlobDirectory) blob, zip, subDirPath);
+                    if (excludedRootDirectories == null || !excludedRootDirectories.Contains(subDirName))
+                    {
+                        string subDirPath;
+                        if (string.IsNullOrWhiteSpace(currentPath)) subDirPath = subDirName;
+                        else subDirPath = string.Format("{0}/{1}", currentPath, subDirName);
+
+                        AddBlobDirectoryToZip((CloudBlobDirectory)blob, zip, subDirPath);
+                    }
                 }
                 else if (blob is CloudBlockBlob)
                 {

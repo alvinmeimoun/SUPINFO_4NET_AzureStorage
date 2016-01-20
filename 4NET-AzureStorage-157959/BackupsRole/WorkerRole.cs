@@ -74,7 +74,7 @@ namespace BackupsRole
             var directory = BlobUtils.getDirectory("");
             var zipFileName = "backup-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".zip";
 
-            using (var zip = ZipUtils.CompressBlobDirectory(directory))
+            using (var zip = ZipUtils.CompressBlobDirectory(directory, excludedRootDirectories: new List<string>{"backups"}))
             {
                 var archivesDir = BlobUtils.getDirectory("backups");
                 var zipBlob = archivesDir.GetBlockBlobReference(zipFileName);
