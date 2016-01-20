@@ -39,7 +39,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BackupsRole\BackupsRole.csproj">
       <Name>BackupsRole</Name>
-      <Project>{3c84358b-ee5b-486e-8a1b-efe984929817}</Project>
+      <Project>{18513530-d4f0-4f2e-b9a7-aaee458b16f5}</Project>
       <Private>True</Private>
       <RoleType>Worker</RoleType>
       <RoleName>BackupsRole</RoleName>
@@ -59,7 +59,6 @@
     <Folder Include="WCFServiceContent\" />
   </ItemGroup>
   <ItemGroup>
-    <DiagnosticsConfiguration Include="BackupsRoleContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WCFServiceContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
