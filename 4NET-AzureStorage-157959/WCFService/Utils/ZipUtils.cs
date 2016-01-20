@@ -42,7 +42,8 @@ namespace WCFService.Utils
             {
                 if (blob is CloudBlobDirectory)
                 {
-                    var subDirName = directory.Prefix.Substring(0, directory.Prefix.Length - 1);
+                    var subDirName = directory.Prefix.Length <= 1 ? directory.Prefix :
+                        directory.Prefix.Substring(0, directory.Prefix.Length - 1);
                     string subDirPath;
                     if (string.IsNullOrWhiteSpace(currentPath)) subDirPath = subDirName;
                     else subDirPath = string.Format("{0}/{1}", currentPath, subDirName);

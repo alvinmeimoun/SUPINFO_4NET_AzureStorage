@@ -18,4 +18,13 @@
       <LocalStorage name="main-local-storage" cleanOnRoleRecycle="false" sizeInMB="200" />
     </LocalResources>
   </WebRole>
+  <WorkerRole name="BackupsRole" vmsize="Small">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="BackupsDelay" />
+    </ConfigurationSettings>
+    <LocalResources>
+      <LocalStorage name="main-local-storage" cleanOnRoleRecycle="false" sizeInMB="200" />
+    </LocalResources>
+  </WorkerRole>
 </ServiceDefinition>

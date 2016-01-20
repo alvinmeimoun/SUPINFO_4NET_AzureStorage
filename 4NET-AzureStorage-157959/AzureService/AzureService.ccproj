@@ -37,6 +37,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackupsRole\BackupsRole.csproj">
+      <Name>BackupsRole</Name>
+      <Project>{3c84358b-ee5b-486e-8a1b-efe984929817}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>BackupsRole</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\WCFService\WCFService.csproj">
       <Name>WCFService</Name>
       <Project>{44f60256-d48b-46cd-9c5c-3ac3eb936a7f}</Project>
@@ -47,9 +55,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BackupsRoleContent\" />
     <Folder Include="WCFServiceContent\" />
   </ItemGroup>
   <ItemGroup>
+    <DiagnosticsConfiguration Include="BackupsRoleContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="WCFServiceContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
